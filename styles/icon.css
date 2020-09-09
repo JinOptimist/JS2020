@@ -1,0 +1,11 @@
+.icon{
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	background-size: cover;
+	cursor: pointer;
+}
+
+.icon.close{
+	background-image: url(../img/icon-close.png);
+}
