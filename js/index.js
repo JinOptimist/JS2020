@@ -16,15 +16,20 @@ $(document).ready(function(){
 	});
 	
 	function calcCoinText(number){
+		//например 73
 		if (number < 11)
 			return numbers0To10[number];
 		if (number < 20){
 			return numbers11To19[number - 11];
 		}
 		
+		//[3,7] Сначала храним единицы. Например 3. Потому десятки 7
 		var array = numberToArray(number);
+		//Десятков 7
 		var ten = array[1];
+		//Среди массива десятков берём 5 элементы
 		var result = tens[ten - 2];
+		//Единицы. Их 3
 		var numberOne = array[0];
 		if (numberOne > 0){
 			result += ' ' + numbers0To10[numberOne];
