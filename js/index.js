@@ -1,5 +1,26 @@
 $(document).ready(function(){
-	console.log(1);
+	$('.login-popup').hide();
+	$('.login-popup .close').click(function(){
+		$('.login-popup').hide();
+	});
+	
+	$('.process').click(function(){
+		var data = $('.data').val() - 0;
+		
+		var encryptData = encryptNumber(data);
+		
+		$('.result').text(encryptData);
+	});
+	
+	function encryptNumber(data){
+		var encryptData;
+		switch(data){
+			case 0:
+				encryptData = 4;
+				break;	
+		}
+		return encryptData;
+	}
 });
 
 
