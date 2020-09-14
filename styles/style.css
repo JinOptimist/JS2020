@@ -4,6 +4,10 @@
 	background: aqua;
 }
 
+.result{
+	border: 1px green solid;
+}
+
 .login-popup{
 	position: fixed;
 	width: 100%;
