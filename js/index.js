@@ -1,9 +1,11 @@
 $(document).ready(function(){
-	
-	$('.login-popup').hide();
-	$('.login-popup .close').click(function(){
-		$('.login-popup').hide();
-	});
+	var numbers0To10 = ['ноль', 'один', 'два', 'три', 'четыре', 
+		'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять'];
+	var numbers11To19 = ['одинадцать', 'дведадцать', 'тридацать', 'четырнадцать', 
+		'пятнадцать', 'шестьнадцать', 'семьдацать', 'восемьнадцать', 'девятьнадцать'];
+	var tens = ['двадцать', 'тридцать', 'сорок', 'пятьдесят', 
+		'шестьдесять', 'семьдесят', 'восемьдесят', 'девяносто'];
+		
 	
 	$('.coin .process').click(function(){
 		var data = $('.coin .data').val() - 0;
@@ -14,7 +16,33 @@ $(document).ready(function(){
 	});
 	
 	function calcCoinText(number){
-		return 'двенадцать';
+		if (number < 11)
+			return numbers0To10[number];
+		if (number < 20){
+			return numbers11To19[number - 11];
+		}
+		
+		var array = numberToArray(number);
+		var ten = array[1];
+		var result = tens[ten - 2];
+		var numberOne = array[0];
+		if (numberOne > 0){
+			result += ' ' + numbers0To10[numberOne];
+		}
+		
+		return result;
+	}
+	
+	function numberToArray(fullNumber){
+		var array = [];
+		
+		while(fullNumber > 0){
+			var number = fullNumber % 10;
+			array.push(number);
+			fullNumber = (fullNumber - number) / 10;
+		}
+		
+		return array;
 	}
 	
 	$('.encrypt .process').click(function(){
@@ -30,6 +58,12 @@ $(document).ready(function(){
 		var encryptData = numbersText[data].length;
 		return encryptData;
 	}
+
+	$('.login-popup').hide();
+	$('.login-popup .close').click(function(){
+		$('.login-popup').hide();
+	});
+	
 });
 
 
