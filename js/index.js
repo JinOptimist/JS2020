@@ -11,6 +11,28 @@ $(document).ready(function(){
 		'пятнадцать', 'шестьнадцать', 'семьдацать', 'восемьнадцать', 'девятьнадцать'];
 	var tens = ['двадцать', 'тридцать', 'сорок', 'пятьдесят', 
 		'шестьдесять', 'семьдесят', 'восемьдесят', 'девяносто'];
+
+	$('.bra .process').click(function(){
+		var data = $('.bra .data').val();
+		var isGood = checkBra(data);
+		$('.bra .result').text(isGood);
+	});
+	
+	function checkBra(text){
+		var count = 0;
+		for(var iText = 0; iText < text.length ; iText++){
+			var symbol = text[iText];
+			for(var iBra = 0; iBra < bra.length ; iBra++){
+				var onePairOfBra  = bra[iBra];// Example ['<', '>']
+				if (onePairOfBra[0] == symbol){
+					count++;
+				}
+			}
+			
+		}
+		
+		return count;
+	}
 		
 	
 	$('.coin .process').click(function(){
