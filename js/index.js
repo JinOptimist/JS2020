@@ -1,4 +1,10 @@
 $(document).ready(function(){
+	var bra = [
+		['(', ')'],
+		['<', '>'],
+		['[', ']'],
+	];
+	
 	var numbers0To10 = ['ноль', 'один', 'два', 'три', 'четыре', 
 		'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять'];
 	var numbers11To19 = ['одинадцать', 'дведадцать', 'тридацать', 'четырнадцать', 
@@ -16,6 +22,10 @@ $(document).ready(function(){
 	});
 	
 	function calcCoinText(number){
+		if (number > 99){
+			number = number % 100;
+		}
+		
 		//например 73
 		if (number < 11)
 			return numbers0To10[number];
@@ -100,6 +110,10 @@ $(document).ready(function(){
 
 // function sum(anyNumber1, anyNumber2){
 	// return anyNumber1 + anyNumber2;
+// }
+
+// for(var i = 0; i < someArray.length ; i++){
+	// someArray[i];
 // }
 
 
