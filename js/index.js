@@ -1,16 +1,7 @@
 $(document).ready(function(){
-	var bra = [
-		['(', ')'],
-		['<', '>'],
-		['[', ']'],
-	];
-	
-	var numbers0To10 = ['ноль', 'один', 'два', 'три', 'четыре', 
-		'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять'];
-	var numbers11To19 = ['одинадцать', 'дведадцать', 'тридацать', 'четырнадцать', 
-		'пятнадцать', 'шестьнадцать', 'семьдацать', 'восемьнадцать', 'девятьнадцать'];
-	var tens = ['двадцать', 'тридцать', 'сорок', 'пятьдесят', 
-		'шестьдесять', 'семьдесят', 'восемьдесят', 'девяносто'];
+	var numbers0To10 = ['ноль', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять'];
+	var numbers11To19 = ['одинадцать', 'дведадцать', 'тридацать', 'четырнадцать', 'пятнадцать', 'шестьнадцать', 'семьдацать', 'восемьнадцать', 'девятьнадцать'];
+	var tens = ['двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесять', 'семьдесят', 'восемьдесят', 'девяносто'];
 
 	$('.bra .process').click(function(){
 		var data = $('.bra .data').val();
@@ -18,22 +9,46 @@ $(document).ready(function(){
 		$('.bra .result').text(isGood);
 	});
 	
-	function checkBra(text){
-		var count = 0;
-		for(var iText = 0; iText < text.length ; iText++){
-			var symbol = text[iText];
-			for(var iBra = 0; iBra < bra.length ; iBra++){
-				var onePairOfBra  = bra[iBra];// Example ['<', '>']
+	function checkBra(line){
+		var braPairs = [
+			['(', ')'],
+			['<', '>'],
+			['[', ']'],
+		];
+		
+		var expected = [];
+		
+		for(var iText = 0; iText < line.length ; iText++){
+			// '('
+			var symbol = line[iText];
+			
+			for(var iBra = 0; iBra < braPairs.length ; iBra++){
+				//['(', ')']
+				var onePairOfBra  = braPairs[iBra];
+				
+				//open
 				if (onePairOfBra[0] == symbol){
-					count++;
+					expected.push(onePairOfBra[1]);
+				}
+				
+				//close
+				if (onePairOfBra[1] == symbol){
+					var indexLastEpected = expected.length - 1;
+					var lastEpected = expected[indexLastEpected];
+					if (lastEpected == symbol){
+						//Удаляем последний элемент из списка ожидаемых скобок
+						expected.splice(indexLastEpected, 1);
+					}else{
+						return false;
+					}
 				}
 			}
 			
 		}
 		
-		return count;
+		return expected.length == 0;
 	}
-		
+
 	
 	$('.coin .process').click(function(){
 		var data = $('.coin .data').val() - 0;
