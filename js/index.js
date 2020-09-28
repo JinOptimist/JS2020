@@ -3,6 +3,15 @@ $(document).ready(function(){
 	var numbers11To19 = ['одинадцать', 'дведадцать', 'тридацать', 'четырнадцать', 'пятнадцать', 'шестьнадцать', 'семьдацать', 'восемьнадцать', 'девятьнадцать'];
 	var tens = ['двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесять', 'семьдесят', 'восемьдесят', 'девяносто'];
 
+	$('.textarearCool .process').click(function(){
+		var data = $('.textarearCool .data').val();
+		
+		var textRich = "line1\r\nline2\r\nline3";
+		// "line1<br>nline2<br>line3"
+		//var numberCount = calcNumberCount(data);
+		$('.textarearCool .result').text(data);
+	});
+	
 	$('.num .process').click(function(){
 		var data = $('.num .data').val();
 		var numberCount = calcNumberCount(data);
