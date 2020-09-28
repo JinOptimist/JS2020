@@ -3,6 +3,43 @@ $(document).ready(function(){
 	var numbers11To19 = ['одинадцать', 'дведадцать', 'тридацать', 'четырнадцать', 'пятнадцать', 'шестьнадцать', 'семьдацать', 'восемьнадцать', 'девятьнадцать'];
 	var tens = ['двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесять', 'семьдесят', 'восемьдесят', 'девяносто'];
 
+	$('.num .process').click(function(){
+		var data = $('.num .data').val();
+		var numberCount = calcNumberCount(data);
+		$('.num .result').text(numberCount);
+	});
+	
+	function calcNumberCount(line){
+		var answer = 0;
+		//Идём ли мы уже по начатому числу
+		var numberWasStarted = false;
+		//Встречали ли точки
+		var flagDot = false;
+		
+		for(var i = 0; i < line.length ; i++){
+			var symbol = line[i];
+			if ( !isNaN(symbol) ){
+				if (!numberWasStarted)
+				{
+					//Начали число
+					answer++;
+					numberWasStarted = true;
+				}
+			}else{
+				if (symbol == '.' && !flagDot) {
+					//Встретили первую точку
+					flagDot = true;
+				} else {
+					//Законичили число
+					numberWasStarted = false;
+					flagDot = false;
+				}
+			}
+		}
+		
+		return answer;
+	}
+	
 	$('.bra .process').click(function(){
 		var data = $('.bra .data').val();
 		var isGood = checkBra(data);
