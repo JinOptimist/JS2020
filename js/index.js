@@ -6,10 +6,9 @@ $(document).ready(function(){
 	$('.textarearCool .process').click(function(){
 		var data = $('.textarearCool .data').val();
 		
-		var textRich = "line1\r\nline2\r\nline3";
-		// "line1<br>nline2<br>line3"
-		//var numberCount = calcNumberCount(data);
-		$('.textarearCool .result').text(data);
+		var answer = data.replaceAll('\n', '<br>');
+		
+		$('.textarearCool .result')[0].innerHTML = answer;
 	});
 	
 	$('.num .process').click(function(){
