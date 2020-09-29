@@ -3,6 +3,79 @@ $(document).ready(function(){
 	var numbers11To19 = ['одинадцать', 'дведадцать', 'тридацать', 'четырнадцать', 'пятнадцать', 'шестьнадцать', 'семьдацать', 'восемьнадцать', 'девятьнадцать'];
 	var tens = ['двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесять', 'семьдесят', 'восемьдесят', 'девяносто'];
 
+	$('.min .process').click(function(){
+		var numbers = $('.min .data').val().split(' ');
+		
+		var answer = minNumb(numbers);
+		
+		$('.min .result').text(answer);
+	});
+	
+	function minNumb(numbers){
+		var min = [undefined, undefined, undefined];
+		// min[0] = numbers[0];
+		// min[1] = numbers[1];
+		// min[2] = numbers[2];
+		// min.sort();
+		
+		for(var i = 0; i < numbers.length; i++){
+			var number = numbers[i] - 0;
+			
+			for(var minIndex = 0; minIndex < min.length; minIndex++){
+				if (!min[minIndex] || number < min[minIndex]){
+					minHelper(min, number, minIndex);
+					break;
+				}
+			}
+			
+			// if (!min[0] || number < min[0]){
+				// minHelper(min, number, 0);
+			// }else if (!min[1] || number < min[1]){
+				// minHelper(min, number, 1);
+			// }else if (!min[2] || number < min[2]){
+				// minHelper(min, number, 2);
+			// }
+		}
+		
+		return min;
+	}
+	
+	function minHelper(min, number, index){
+		for(var i = min.length - 1; i > index; i--){
+			min[i] = min[i-1];
+		}
+		
+		min[index] = number;
+	}
+	
+	$('.pol .process').click(function(){
+		var userInput = $('.pol .data').val();
+		
+		var answer = capitalLetter(userInput);
+		
+		$('.pol .result').text(answer);
+	});
+	
+	function capitalLetter(line){
+		var newLine = [];
+		newLine[0] = line[0].toUpperCase();
+		newLine[1] = line[1];
+		
+		for(var i = 2; i < line.length; i++){
+			if (line[i - 2] == '.'){
+				newLine[i] = line[i].toUpperCase();
+			}else{
+				newLine[i] = line[i];
+			}
+			
+			// newLine[i] = line[i - 2] == '.' ///условие
+							// ? line[i].toUpperCase() // true
+							// : line[i];	// false
+		}
+		
+		return newLine.join('');
+	}
+	
 	$('.textarearCool .process').click(function(){
 		var data = $('.textarearCool .data').val();
 		
@@ -24,7 +97,7 @@ $(document).ready(function(){
 		//Встречали ли точки
 		var flagDot = false;
 		
-		for(var i = 0; i < line.length ; i++){
+		for(var i = 0; i < line.length /2 ; i++){
 			var symbol = line[i];
 			if ( !isNaN(symbol) ){
 				if (!numberWasStarted)
