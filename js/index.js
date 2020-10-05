@@ -3,6 +3,53 @@ $(document).ready(function(){
 	var numbers11To19 = ['одинадцать', 'дведадцать', 'тридацать', 'четырнадцать', 'пятнадцать', 'шестьнадцать', 'семьдацать', 'восемьнадцать', 'девятьнадцать'];
 	var tens = ['двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесять', 'семьдесят', 'восемьдесят', 'девяносто'];
 
+	
+	$('.ana .process').click(function(){
+		var data1 = $('.ana .data1').val();
+		var data2 = $('.ana .data2').val();
+		
+		var answer = checkAnn(data1, data2);
+		
+		$('.ana .result').text(answer);
+	});
+	
+	function checkAnn(word1, word2){
+		if (word1.length != word2.length){
+			return false;
+		}
+		
+		var arr1 = word1.split('');
+		var arr2 = word2.split('');
+		
+		arr1.sort();
+		arr2.sort();
+		
+		for(var i = 0; i < arr1.length; i++){
+			if (arr1[i] != arr2[i]){
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	$('.Uniq .process').click(function(){
+		var symbols = $('.Uniq .data').val().split('');
+		
+		var uniqSymbols = [];
+		
+		for(var i = 0; i < symbols.length; i++){
+			var symbol = symbols[i];
+			
+			if (uniqSymbols.indexOf(symbol) < 0){
+				uniqSymbols.push(symbol);
+			}
+		}
+		
+		
+		$('.Uniq .result').text(uniqSymbols);
+	});
+	
 	$('.min .process').click(function(){
 		var numbers = $('.min .data').val().split(' ');
 		
