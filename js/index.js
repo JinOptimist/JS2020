@@ -22,7 +22,7 @@ $(document).ready(function(){
 			var number = numbers[i] - 0;
 			
 			for(var minIndex = 0; minIndex < min.length; minIndex++){
-				if (!min[minIndex] || number < min[minIndex]){
+				if (min[minIndex] == undefined || number < min[minIndex]){
 					minHelper(min, number, minIndex);
 					break;
 				}
