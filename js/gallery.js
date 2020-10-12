@@ -29,13 +29,23 @@ $(document).ready(function(){
 		drawGoods();
 	});
 	
+	$('.left-menu .filter').change(function(){
+		
+	});
+	
+	$('.left-menu .filter').keyup(function (){
+		drawGoods();
+	});
+	
 	function drawGoods(){
 		$('.content .goods:not(.first)').remove();
 		
-		//sort goods
+		var copyGoods = filterGoods(goods);
 		
-		for	(var i = 0; i< goods.length; i++){
-			var good = goods[i];
+		copyGoods = sortGoods(copyGoods);
+		
+		for	(var i = 0; i< copyGoods.length; i++){
+			var good = copyGoods[i];
 			var goodsDiv = $('<div>');
 		
 			goodsDiv.addClass('goods');
@@ -54,8 +64,52 @@ $(document).ready(function(){
 			
 			$('.content').append(goodsDiv);
 		}
+	}
+	
+	function sortGoods(oldGoods){
+		var copyGoods = oldGoods.sort(function(a,b){
+			if (a.name > b.name){
+				return 1;
+			}
+			if (a.name < b.name){
+				return -1;
+			}
+			return 0;
+		});
 		
+		return copyGoods;
+	}
+
+	function filterGoods(oldGoods){
+		var textFilter = $('.left-menu .filter').val();
 		
+		var newGoods = oldGoods.filter(function (good){
+			if (good.name.indexOf(textFilter) > -1){
+				return true;
+			}
+			
+			return false;
+		});
+		
+		return newGoods;
 	}
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

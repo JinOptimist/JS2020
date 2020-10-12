@@ -14,9 +14,13 @@ body{
 }
 
 .left-menu{
-	width: 100px;
+	width: 150px;
 	background: aqua;
 	padding: 5px;
+}
+
+.left-menu .filter{
+	width: 140px;
 }
 
 .goods{
