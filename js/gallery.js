@@ -26,26 +26,57 @@ $(document).ready(function(){
 			url: newUrl
 		};
 		goods.push(good);
-		drawGoods();
-	});
-	
-	$('.left-menu .filter').change(function(){
-		
+		refreshGoods();
 	});
 	
 	$('.left-menu .filter').keyup(function (){
-		drawGoods();
+		refreshGoods();
 	});
 	
-	function drawGoods(){
+	//Обновить все товары
+	function refreshGoods(){
 		$('.content .goods:not(.first)').remove();
 		
-		var copyGoods = filterGoods(goods);
+		//Отдавли все товары
+		//Получили товары подходящие под запрос пользователя
+		var filteredGoods = filterGoods(goods);
 		
-		copyGoods = sortGoods(copyGoods);
+		//Отдали товары подходящие под запрос пользователя
+		//Отдали товары подходящие под запрос пользователя в нужном порядке
+		var filteredAndSortedGoods = sortGoods(filteredGoods);
 		
-		for	(var i = 0; i< copyGoods.length; i++){
-			var good = copyGoods[i];
+		//Нарисует товары
+		drawGoods(filteredAndSortedGoods);
+	}
+	
+	function sortGoods(oldGoods){
+		var copyGoods = oldGoods.sort(function(a,b){
+			if (a.name > b.name){
+				return 1;
+			}
+			if (a.name < b.name){
+				return -1;
+			}
+			return 0;
+		});
+		
+		return copyGoods;
+	}
+
+	//Получила какие-то товары
+	function filterGoods(someGoods){
+		var textFilter = $('.left-menu .filter').val();
+		
+		var filteredGoods = someGoods.filter(function (good){
+			return good.name.indexOf(textFilter) > -1;
+		});
+		
+		return filteredGoods;
+	}
+
+	function drawGoods(someGoods){
+		for	(var i = 0; i< someGoods.length; i++){
+			var good = someGoods[i];
 			var goodsDiv = $('<div>');
 		
 			goodsDiv.addClass('goods');
@@ -66,33 +97,6 @@ $(document).ready(function(){
 		}
 	}
 	
-	function sortGoods(oldGoods){
-		var copyGoods = oldGoods.sort(function(a,b){
-			if (a.name > b.name){
-				return 1;
-			}
-			if (a.name < b.name){
-				return -1;
-			}
-			return 0;
-		});
-		
-		return copyGoods;
-	}
-
-	function filterGoods(oldGoods){
-		var textFilter = $('.left-menu .filter').val();
-		
-		var newGoods = oldGoods.filter(function (good){
-			if (good.name.indexOf(textFilter) > -1){
-				return true;
-			}
-			
-			return false;
-		});
-		
-		return newGoods;
-	}
 });
 
 
