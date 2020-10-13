@@ -33,6 +33,10 @@ $(document).ready(function(){
 		refreshGoods();
 	});
 	
+	$('.refresh').click(function(){
+		refreshGoods();
+	});
+	
 	//Обновить все товары
 	function refreshGoods(){
 		$('.content .goods:not(.first)').remove();
@@ -49,8 +53,10 @@ $(document).ready(function(){
 		drawGoods(filteredAndSortedGoods);
 	}
 	
+	//Сортируем товары
 	function sortGoods(oldGoods){
-		var copyGoods = oldGoods.sort(function(a,b){
+		
+		var aBiggerThenB = function(a,b){
 			if (a.name > b.name){
 				return 1;
 			}
@@ -58,19 +64,28 @@ $(document).ready(function(){
 				return -1;
 			}
 			return 0;
-		});
+		};
+		
+		var copyGoods = oldGoods.sort(aBiggerThenB);
+		
+		
 		
 		return copyGoods;
 	}
 
-	//Получила какие-то товары
+	//Функция получила какие-то товары
 	function filterGoods(someGoods){
+		//Нашли строку, которую использовал пользователь
 		var textFilter = $('.left-menu .filter').val();
 		
+		//Взяли старый массив, забрали из него только не товары, 
+		//в имени которых была строка набранная Пользователем.
+		// Получился новый массив.
 		var filteredGoods = someGoods.filter(function (good){
 			return good.name.indexOf(textFilter) > -1;
 		});
 		
+		//Вернули новый массив
 		return filteredGoods;
 	}
 
