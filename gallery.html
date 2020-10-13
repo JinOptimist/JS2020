@@ -18,12 +18,35 @@
 				
 				<div>
 					<label>
-						Вверх <input type='radio' name='sortOrder' value='1' />
+						Name <input type='radio' name='sortField' checked='checked' value='name' />
 					</label>
 					
 					<label>
-						Вниз <input type='radio' name='sortOrder' value='2' />
+						Url <input type='radio' name='sortField' value='url' />
 					</label>
+				</div>
+				
+				<div>
+					<label>
+						Вверх <input type='radio' name='sortOrder' value='Up' />
+					</label>
+					
+					<label>
+						Вниз <input type='radio' name='sortOrder' value='Down' />
+					</label>
+				</div>
+				<div>
+					<div>
+						<label>
+							С учётом P <input type='radio' name='registerSort' value='1' />
+						</label>
+					</div>
+					
+					<div>
+						<label>
+							Без учёта P <input type='radio' name='registerSort' value='2' />
+						</label>
+					</div>
 				</div>
 				<div>
 					<input type='button' value='обновить' class='refresh'/>
