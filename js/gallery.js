@@ -32,7 +32,7 @@ $(document).ready(function(){
 	
 	refreshGoods();
 	
-	$('.login-popup').hide();
+	//$('.login-popup').hide();
 	
 	$('.login-popup .close').click(function (){
 		$('.login-popup').hide();
@@ -168,7 +168,16 @@ $(document).ready(function(){
 	}
 	
 	function fullScreen(){
-		console.log(123);
+		$('.login-popup').show();
+		$('.login-content-center').empty();
+		
+		var goodId = $(this).attr('data-id');
+		var good = goods.filter(x => x.id == goodId)[0];
+		
+		var img = $('<img>');
+		img.attr('src', good.url);
+		
+		$('.login-content-center').append(img);
 	}
 });
 
