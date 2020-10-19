@@ -25,10 +25,13 @@ body{
 
 .goods{
 	border: 1px #ccc solid;
+	border-radius: 10px;
 	width: 200px;
 	height: 200px;
 	display: flex;
     flex-direction: column;
+	margin: 3px;
+    
 }
 
 .goods div{

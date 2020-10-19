@@ -1,11 +1,12 @@
-$(document).ready(function(){
-	
+$(document).ready(function(){	
 	var goods = [
 		{
+			id: 1,
 			name: 'A-Blond',
 			url: 'img/Girl1.jpg'
 		},
 		{
+			id: 2,
 			name: 'Z-Blond',
 			url: 'img/Girl1.jpg'
 		},
@@ -18,18 +19,22 @@ $(document).ready(function(){
 			// url: 'img/Girl2.jpg'
 		// },
 		{
+			id: 3,
 			name: 'Z-Red',
 			url: 'img/Girl2.jpg'
 		},
 		{
+			id: 4,
 			name: 'A-Red',
 			url: 'img/Girl2.jpg'
 		},
 	];
 	
+	refreshGoods();
+	
 	$('.login-popup').hide();
 	
-	$('.login-popup .close').click(function(){
+	$('.login-popup .close').click(function (){
 		$('.login-popup').hide();
 	});
 	
@@ -37,7 +42,15 @@ $(document).ready(function(){
 		var newName = $('.goods.first .new-image-name').val();
 		var newUrl = $('.goods.first .new-image-url').val();
 		
+		//good => good.Id
+		//Тоже самое по старому
+		// function (good)
+		// {
+			// return good.Id;
+		// }
+		
 		var good = {
+			id: goods.sort(x => -1 * x.Id)[0].id + 1, 
 			name: newName,
 			url: newUrl
 		};
@@ -80,7 +93,7 @@ $(document).ready(function(){
 				
 		var register = $('[name=registerSort]:checked').val();
 		//filed = 'name' || field == 'url'
-		var filed = $('[name=sortField]:checked').val();
+		var field = $('[name=sortField]:checked').val();
 		
 		var aBiggerThenB = function(a,b){
 			var first = a[field];//a.name;
@@ -130,6 +143,8 @@ $(document).ready(function(){
 			var good = someGoods[i];
 			var goodsDiv = $('<div>');
 		
+			goodsDiv.click(fullScreen);
+			goodsDiv.attr('data-id', good.id);
 			goodsDiv.addClass('goods');
 			
 			var divName = $('<div>');
@@ -150,7 +165,11 @@ $(document).ready(function(){
 			
 			$('.content').append(goodsDiv);
 		}
-	}	
+	}
+	
+	function fullScreen(){
+		console.log(123);
+	}
 });
 
 
