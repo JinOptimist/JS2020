@@ -83,8 +83,8 @@ $(document).ready(function(){
 		var filed = $('[name=sortField]:checked').val();
 		
 		var aBiggerThenB = function(a,b){
-			var first = a[filed];//a.name;
-			var second = b[filed];
+			var first = a[field];//a.name;
+			var second = b[field];
 			
 			if (register == '2'){
 				first = first.toLowerCase();
