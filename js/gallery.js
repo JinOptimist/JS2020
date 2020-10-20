@@ -47,40 +47,63 @@ $(document).ready(function(){
 	$('.step-forward').click(function(){
 		curentId--;
 		curentId = calcIndex(curentId);
-		updateCarousel();
+		//updateCarousel();
+		updateFakeCarousel();
+		
+		niceMove(false);
 	});
 	
 	$('.step-back').click(function(){
 		curentId++;
 		curentId = calcIndex(curentId);
 		
-		var rightGood = sortGoods(goods)[calcIndex(curentId + 1)];
-		$('.fake-right .right-image').attr('src', rightGood.url);
+		updateFakeCarousel();
 		
+		niceMove(true);
+	});
+	
+	function niceMove(dir){
+		var dirPlus = dir ? '+' : '-';
+		var dirMinus = dir ? '-' : '+';
 		$('.carousel .small.back').animate(
 			{ 
-				width: "-=250px",
-			}, 2000);
-		$('.carousel .image.center').animate(
-			{ 
-				width: "-=250px",
-				height: "-=250px",
-				opacity: "-=0.5",
+				width: `${dirMinus}=250px`,
 			}, 2000);
 			
-		$('.carousel .fake-right').animate(
+		$('.carousel .fake.right').animate(
 			{ 
-				width: "+=250px",
+				width: `${dirPlus}=250px`,
 			}, 2000);
 		$('.carousel .forward.small').animate(
 			{ 
-				opacity: "+=0.5",
-				height: "+=250px",
-				width: "+=250px",
+				opacity: `${dirPlus}=0.5`,
+				height: `${dirPlus}=250px`,
+				width: `${dirPlus}=250px`,
+			}, 2000);
+			
+		$('.carousel .image.center').animate(
+			{ 
+				width: `${dirMinus}=250px`,
+				height: `${dirMinus}=250px`,
+				opacity: `${dirMinus}=0.5`,
 			}, 2000,
 			"swing",
 			updateCarousel);
-	});
+	}
+	
+	function updateFakeCarousel(){
+		var updateGoods = sortGoods(goods);
+		
+		var leftIndex = calcIndex(curentId - 1);
+		var rightIndex = calcIndex(curentId + 1);
+		
+		var good = updateGoods[curentId];
+		var leftGood = updateGoods[leftIndex];
+		var rightGood = updateGoods[rightIndex];
+		
+		$('.fake.left .left-image').attr('src', leftGood.url);
+		$('.fake.right .right-image').attr('src', rightGood.url);
+	}
 	
 	function defaultCss(){
 		$('.carousel .small.back').css('width', '250px');
@@ -89,7 +112,7 @@ $(document).ready(function(){
 		$('.carousel .image.center').css('height', '500px');
 		$('.carousel .image.center').css('opacity', '1');
 		
-		$('.carousel .fake-right').css('width', '0');
+		$('.carousel .fake.right').css('width', '0');
 	
 		$('.carousel .forward.small').css('height', '250px');
 		$('.carousel .forward.small').css('width', '250px');
@@ -114,9 +137,9 @@ $(document).ready(function(){
 	}
 	
 	function calcIndex(index){
-		index %= goods.length;
+		index = index % goods.length;
 		if (index < 0){
-			index += goods.length;
+			index = index + goods.length;
 		}
 		// 0 <= index < 5
 		return index;
