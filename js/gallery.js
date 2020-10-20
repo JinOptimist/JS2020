@@ -27,9 +27,7 @@ $(document).ready(function(){
 		},
 	];
 	
-	var curentId = 4;
-	
-	var carouselLength = 3;
+	var curentId = 0;
 	
 	refreshGoods();
 	updateCarousel();
@@ -37,20 +35,72 @@ $(document).ready(function(){
 	$('.login-popup').hide();
 	
 	$('.step-forward').click(function(){
-		curentId++;
-		curentId = calcIndex(curentId);
-		updateCarousel();
-	});
-	
-	$('.step-back').click(function(){
 		curentId--;
 		curentId = calcIndex(curentId);
 		updateCarousel();
 	});
 	
+	$('.step-back').click(function(){
+		curentId++;
+		curentId = calcIndex(curentId);
+		
+		var rightGood = sortGoods(goods)[calcIndex(curentId + 1)];
+		$('.fake-right .right-image').attr('src', rightGood.url);
+		
+		$('.carousel .small.back').animate(
+			{ 
+				width: "-=250px",
+			}, 2000);
+		$('.carousel .image.center').animate(
+			{ 
+				width: "-=250px",
+				height: "-=250px",
+				opacity: "-=0.5",
+			}, 2000);
+			
+		$('.carousel .fake-right').animate(
+			{ 
+				width: "+=250px",
+			}, 2000);
+		$('.carousel .forward.small').animate(
+			{ 
+				opacity: "+=0.5",
+				height: "+=250px",
+				width: "+=250px",
+			}, 2000,
+			"swing",
+			updateCarousel);
+	});
+	
+	function defaultCss(){
+		$('.carousel .small.back').css('width', '250px');
+		
+		$('.carousel .image.center').css('width', '500px');
+		$('.carousel .image.center').css('height', '500px');
+		$('.carousel .image.center').css('opacity', '1');
+		
+		$('.carousel .fake-right').css('width', '0');
+	
+		$('.carousel .forward.small').css('height', '250px');
+		$('.carousel .forward.small').css('width', '250px');
+		$('.carousel .forward.small').css('opacity', '0.5');
+	}
+	
 	function updateCarousel(){
-		var good = goods[curentId];
-		$('.center-image').attr('src', good.url);
+		defaultCss();
+		
+		var updateGoods = sortGoods(goods);
+		
+		var leftIndex = calcIndex(curentId - 1);
+		var rightIndex = calcIndex(curentId + 1);
+		
+		var good = updateGoods[curentId];
+		var leftGood = updateGoods[leftIndex];
+		var rightGood = updateGoods[rightIndex];
+		
+		$('.center-image').attr('src', good.url);		
+		$('.left-image').attr('src', leftGood.url);
+		$('.right-image').attr('src', rightGood.url);
 	}
 	
 	function calcIndex(index){
@@ -58,7 +108,7 @@ $(document).ready(function(){
 		if (index < 0){
 			index += goods.length;
 		}
-		
+		// 0 <= index < 5
 		return index;
 	}
 	

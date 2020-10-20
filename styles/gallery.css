@@ -101,9 +101,9 @@ body{
 
 .carousel {
 	height: 500px;
-	width: 500px;
+	width: calc(500px * 2);
 	display: flex;
-    justify-content: center;
+	justify-content: center;
     align-items: center;
 }
 
@@ -112,6 +112,24 @@ body{
 	max-width: 100%;
 }
 
+.carousel .image{
+	height: 500px;
+	width: 500px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.carousel .image.small{
+	height: calc(500px / 2);
+	width: calc(500px / 2);	
+	opacity: 0.5;
+}
+
+.carousel .image.fake-right{
+	width: 0;
+}
+
+
 .carousel .buttons{
 	cursor: pointer;
     position: absolute;
@@ -119,6 +137,7 @@ body{
     align-items: center;    
     width: 500px;
     height: 500px;
+	z-index: 5;
 }
 
 .carousel .step-back,
