@@ -7,13 +7,26 @@
 }
 
 .icon.close{
-	background-image: url(../img/icon-close.png);
+	background-image: url(../img/icon/icon-close.png);
 }
 
 .icon.add{
-	background-image: url(../img/add-24px.svg);
+	background-image: url(../img/icon/add-24px.svg);
 }
 
 .icon.delete{
-	background-image: url(../img/delete-24px.svg);
+	background-image: url(../img/icon/delete-24px.svg);
+}
+
+.icon.left{
+	background-image: url(../img/icon/left.svg);
+}
+.icon.left:hover{
+	background-image: url(../img/icon/left_hover.svg);
+}
+.icon.right{
+	background-image: url(../img/icon/right.svg);
+}
+.icon.right:hover{
+	background-image: url(../img/icon/right_hover.svg);
 }

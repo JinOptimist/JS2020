@@ -76,12 +76,17 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 200px;
-    height: 200px;
+    width: 400px;
+    height: 400px;
     background: #fff;
     border: 2px green solid;
     z-index: 20;
     flex-direction: column;	
+}
+
+.login-popup .login-content img{
+	max-width: 400px;
+    max-height: calc(400px - 20px);
 }
 
 .login-popup .close-block{
@@ -93,3 +98,64 @@ body{
 .login-popup .empty{
 	height: 20px;
 }
+
+.carousel {
+	height: 500px;
+	width: 500px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel img{
+	max-height: 100%;
+	max-width: 100%;
+}
+
+.carousel .buttons{
+	cursor: pointer;
+    position: absolute;
+    display: flex;
+    align-items: center;    
+    width: 500px;
+    height: 500px;
+}
+
+.carousel .step-back,
+.carousel .step-forward{
+	width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.carousel .step-forward{
+	justify-content: flex-end;
+}
+
+.carousel .step-forward:hover,
+.carousel .step-back:hover{
+	font-size: 30px;
+	color: red;
+}
+
+.carousel .step-back:hover .icon.left{
+	background-image: url(../img/icon/left_hover.svg);
+}
+.carousel .step-forward:hover .icon.right{
+	background-image: url(../img/icon/right_hover.svg);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

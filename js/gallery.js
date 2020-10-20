@@ -7,32 +7,60 @@ $(document).ready(function(){
 		},
 		{
 			id: 2,
-			name: 'Z-Blond',
-			url: 'img/Girl1.jpg'
+			name: 'z-blond',
+			url: 'img/girl3.jpg'
 		},
-		// {
-			// name: 'Blond',
-			// url: 'img/Girl1.jpg'
-		// },
-		// {
-			// name: 'Red',
-			// url: 'img/Girl2.jpg'
-		// },
 		{
 			id: 3,
-			name: 'Z-Red',
+			name: 'A-Red',
 			url: 'img/Girl2.jpg'
 		},
 		{
 			id: 4,
-			name: 'A-Red',
-			url: 'img/Girl2.jpg'
+			name: 'Z-blond',
+			url: 'img/girl4.jpg'
+		},
+		{
+			id: 5,
+			name: 'Z-blond',
+			url: 'img/mei.png'
 		},
 	];
 	
-	refreshGoods();
+	var curentId = 4;
 	
-	//$('.login-popup').hide();
+	var carouselLength = 3;
+	
+	refreshGoods();
+	updateCarousel();
+	
+	$('.login-popup').hide();
+	
+	$('.step-forward').click(function(){
+		curentId++;
+		curentId = calcIndex(curentId);
+		updateCarousel();
+	});
+	
+	$('.step-back').click(function(){
+		curentId--;
+		curentId = calcIndex(curentId);
+		updateCarousel();
+	});
+	
+	function updateCarousel(){
+		var good = goods[curentId];
+		$('.center-image').attr('src', good.url);
+	}
+	
+	function calcIndex(index){
+		index %= goods.length;
+		if (index < 0){
+			index += goods.length;
+		}
+		
+		return index;
+	}
 	
 	$('.login-popup .close').click(function (){
 		$('.login-popup').hide();
@@ -50,7 +78,7 @@ $(document).ready(function(){
 		// }
 		
 		var good = {
-			id: goods.sort(x => -1 * x.Id)[0].id + 1, 
+			id: goods.sort((a,b) => b.id - a.id)[0].id + 1, 
 			name: newName,
 			url: newUrl
 		};
