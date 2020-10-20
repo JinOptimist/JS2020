@@ -18,12 +18,22 @@ $(document).ready(function(){
 		{
 			id: 4,
 			name: 'Z-blond',
-			url: 'img/girl4.jpg'
+			url: 'img/girl6.png'
 		},
 		{
 			id: 5,
 			name: 'Z-blond',
 			url: 'img/mei.png'
+		},
+		{
+			id: 6,
+			name: 'Z-blond',
+			url: 'img/tracer.png'
+		},
+		{
+			id: 7,
+			name: 'Z-blond',
+			url: 'img/girl7.png'
 		},
 	];
 	
