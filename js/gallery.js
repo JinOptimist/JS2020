@@ -38,55 +38,85 @@ $(document).ready(function(){
 	];
 	
 	var curentId = 0;
+	var animationInAction = false;
+	var animationSpeed = 1000;
 	
 	refreshGoods();
 	updateCarousel();
 	
+	function addTimer(){
+		var current = $('.timer').data('tick') - 0;
+		current++;
+		$('.timer').data('tick', current);
+		$('.timer').text(current);
+	}
+	
+	setInterval(addTimer, 1000);
+	setInterval(stepBack, 2000);
+	
+	//setInterval(stepForward, 4000);
+	
 	$('.login-popup').hide();
 	
-	$('.step-forward').click(function(){
+	$('.step-forward').click(stepForward);
+	function stepForward(){
+		if (animationInAction){
+			return false;
+		}
+		
 		curentId--;
 		curentId = calcIndex(curentId);
-		//updateCarousel();
-		updateFakeCarousel();
 		
 		niceMove(false);
-	});
+	}
 	
-	$('.step-back').click(function(){
+	$('.step-back').click(stepBack);
+	
+	function stepBack(){
+		if (animationInAction){
+			return false;
+		}
+		
 		curentId++;
 		curentId = calcIndex(curentId);
 		
-		updateFakeCarousel();
-		
 		niceMove(true);
-	});
+	}
+	
 	
 	function niceMove(dir){
+		animationInAction = true;
+		updateFakeCarousel();
+		
 		var dirPlus = dir ? '+' : '-';
 		var dirMinus = dir ? '-' : '+';
-		$('.carousel .small.back').animate(
+		
+		var smallBlockDisappeared = dir ? 'back' : 'forward';
+		$(`.carousel .small.${smallBlockDisappeared}`).animate(
 			{ 
-				width: `${dirMinus}=250px`,
-			}, 2000);
+				width: `-=250px`,
+			}, animationSpeed);
 			
-		$('.carousel .fake.right').animate(
+		var smallGonaBigger = dir ? 'right' : 'left';
+		$(`.carousel .fake.${smallGonaBigger}`).animate(
 			{ 
-				width: `${dirPlus}=250px`,
-			}, 2000);
-		$('.carousel .forward.small').animate(
+				width: `+=250px`,
+			}, animationSpeed);
+		
+		var smallBlockAppeared = dir ? 'forward': 'back';
+		$(`.carousel .${smallBlockAppeared}.small`).animate(
 			{ 
-				opacity: `${dirPlus}=0.5`,
-				height: `${dirPlus}=250px`,
-				width: `${dirPlus}=250px`,
-			}, 2000);
-			
+				opacity: `+=0.5`,
+				height: `+=250px`,
+				width: `+=250px`,
+			}, animationSpeed);
+		
 		$('.carousel .image.center').animate(
 			{ 
-				width: `${dirMinus}=250px`,
-				height: `${dirMinus}=250px`,
-				opacity: `${dirMinus}=0.5`,
-			}, 2000,
+				width: `-=250px`,
+				height: `-=250px`,
+				opacity: `-=0.5`,
+			}, animationSpeed,
 			"swing",
 			updateCarousel);
 	}
@@ -107,16 +137,19 @@ $(document).ready(function(){
 	
 	function defaultCss(){
 		$('.carousel .small.back').css('width', '250px');
+		$('.carousel .small.back').css('height', '250px');
+		$('.carousel .small.back').css('opacity', '0.5');
 		
 		$('.carousel .image.center').css('width', '500px');
 		$('.carousel .image.center').css('height', '500px');
 		$('.carousel .image.center').css('opacity', '1');
 		
 		$('.carousel .fake.right').css('width', '0');
+		$('.carousel .fake.left').css('width', '0');
 	
-		$('.carousel .forward.small').css('height', '250px');
-		$('.carousel .forward.small').css('width', '250px');
-		$('.carousel .forward.small').css('opacity', '0.5');
+		$('.carousel .small.forward').css('height', '250px');
+		$('.carousel .small.forward').css('width', '250px');
+		$('.carousel .small.forward').css('opacity', '0.5');
 	}
 	
 	function updateCarousel(){
@@ -134,6 +167,8 @@ $(document).ready(function(){
 		$('.center-image').attr('src', good.url);		
 		$('.left-image').attr('src', leftGood.url);
 		$('.right-image').attr('src', rightGood.url);
+		
+		animationInAction = false;
 	}
 	
 	function calcIndex(index){
@@ -175,6 +210,7 @@ $(document).ready(function(){
 	
 	$('.refresh').click(function(){
 		refreshGoods();
+		updateCarousel();
 	});
 	
 	//Обновить все товары
