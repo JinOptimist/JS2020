@@ -3,7 +3,7 @@ $(document).ready(function(){
 		{
 			id: 1,
 			name: 'A-Blond',
-			url: 'img/Girl1.jpg'
+			url: 'img/Girl1.png'
 		},
 		{
 			id: 2,
@@ -28,12 +28,17 @@ $(document).ready(function(){
 		{
 			id: 6,
 			name: 'Z-blond',
-			url: 'img/tracer.png'
+			url: 'img/Girl8.png'
 		},
 		{
 			id: 7,
 			name: 'Z-blond',
 			url: 'img/girl7.png'
+		},
+		{
+			id: 7,
+			name: 'A-Blond',
+			url: 'img/Girl4.png'
 		},
 	];
 	
@@ -47,13 +52,16 @@ $(document).ready(function(){
 	updateCarousel();
 	
 	function addTimer(){
-		var current = $('.timer').data('tick') - 0;
+		var current = $('.timer').data('second') - 0;
 		current++;
-		$('.timer').data('tick', current);
+		$('.timer').data('second', current);
 		$('.timer').text(current);
 	}
 	
-	//setInterval(addTimer, 1000);
+	setInterval(addTimer, 1000);
+	
+	
+	
 	//setInterval(stepBack, 2000);
 	
 	setInterval(function(){
@@ -69,19 +77,20 @@ $(document).ready(function(){
 	
 	$('.step-forward').click(stepForward);
 	function stepForward(){		
-		actionQueue.push(() => {
+		var right = () => {
 			curentId = calcIndex(--curentId);
 			niceMove(false);
-		});
+		};
+		actionQueue.push(right);
 	}
 	
-	$('.step-back').click(stepBack);
-	
+	$('.step-back').click(stepBack);	
 	function stepBack(){
-		actionQueue.push(() => {
+		var left = () => {
 			curentId = calcIndex(++curentId);
 			niceMove(true);
-		});
+		};
+		actionQueue.push(left);
 	}
 	
 	function niceMove(dir){
