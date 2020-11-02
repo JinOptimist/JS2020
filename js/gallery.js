@@ -39,7 +39,9 @@ $(document).ready(function(){
 	
 	var curentId = 0;
 	var animationInAction = false;
-	var animationSpeed = 1000;
+	var animationSpeed = 3000;
+	
+	var actionQueue = [];
 	
 	refreshGoods();
 	updateCarousel();
@@ -51,38 +53,36 @@ $(document).ready(function(){
 		$('.timer').text(current);
 	}
 	
-	setInterval(addTimer, 1000);
-	setInterval(stepBack, 2000);
+	//setInterval(addTimer, 1000);
+	//setInterval(stepBack, 2000);
+	
+	setInterval(function(){
+		if (!animationInAction && actionQueue.length > 0){
+			var action = actionQueue.shift();
+			action();
+		}
+	}, 100);
 	
 	//setInterval(stepForward, 4000);
 	
 	$('.login-popup').hide();
 	
 	$('.step-forward').click(stepForward);
-	function stepForward(){
-		if (animationInAction){
-			return false;
-		}
-		
-		curentId--;
-		curentId = calcIndex(curentId);
-		
-		niceMove(false);
+	function stepForward(){		
+		actionQueue.push(() => {
+			curentId = calcIndex(--curentId);
+			niceMove(false);
+		});
 	}
 	
 	$('.step-back').click(stepBack);
 	
 	function stepBack(){
-		if (animationInAction){
-			return false;
-		}
-		
-		curentId++;
-		curentId = calcIndex(curentId);
-		
-		niceMove(true);
+		actionQueue.push(() => {
+			curentId = calcIndex(++curentId);
+			niceMove(true);
+		});
 	}
-	
 	
 	function niceMove(dir){
 		animationInAction = true;
@@ -94,7 +94,7 @@ $(document).ready(function(){
 		var smallBlockDisappeared = dir ? 'back' : 'forward';
 		$(`.carousel .small.${smallBlockDisappeared}`).animate(
 			{ 
-				width: `-=250px`,
+				width: `0px`,
 			}, animationSpeed);
 			
 		var smallGonaBigger = dir ? 'right' : 'left';
