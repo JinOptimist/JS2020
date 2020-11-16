@@ -118,18 +118,18 @@ body{
 	display: flex;
     justify-content: center;
     align-items: center;
-	background-color: blue;
+	/* background-color: blue; */
 }
 .carousel .image.small{
 	height: calc(500px / 2);
 	width: calc(500px / 2);	
 	opacity: 0.5;
-	background-color: green;
+	/* background-color: green; */
 }
 
 .carousel .image.fake{
 	width: 0;
-	background: red;
+	/* background: red; */
 }
 
 

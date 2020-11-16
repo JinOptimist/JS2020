@@ -44,6 +44,7 @@ $(document).ready(function(){
 	
 	var curentId = 0;
 	var animationInAction = false;
+	var mouseOnImage = false;
 	var animationSpeed = 2 * 1000;
 	
 	var actionQueue = [];
@@ -59,9 +60,18 @@ $(document).ready(function(){
 	}
 	
 	setInterval(addTimer, 1000);
-	setInterval(stepBack, 10 * 1000);
+	setInterval(stepBack, 3 * 1000);
 	
-	setInterval(function(){
+	setInterval(checkAnimation, 100);
+	function checkAnimation(){
+		drawQueue();
+		if (!mouseOnImage && !animationInAction && actionQueue.length > 0){
+			var someFunText = actionQueue.shift();
+			someFunText();
+		}
+	}
+	
+	function drawQueue(){
 		$('.queue').empty();
 		var actions = actionQueue.map(x => x.name);
 		for	(var i = 0; i < actions.length ; i++){
@@ -69,21 +79,20 @@ $(document).ready(function(){
 			span.text(`${i}) ${actions[i]}`);
 			$('.queue').append(span);
 		}
-		
-		if (!animationInAction && actionQueue.length > 0){
-			var action = actionQueue.shift();
-			action();
-		}
-	}, 100);
+	}
 	
 	//setInterval(stepForward, 4000);
 	
 	$('.login-popup').hide();
 	
+	$('.buttons').hover(
+		() => { mouseOnImage = true; },
+		() => { mouseOnImage = false; }
+	);
+	
 	$('.step-forward').click(stepForward);
 	function stepForward(){		
 		var right = () => {
-			curentId = calcIndex(--curentId);
 			niceMove(false);
 		};
 		actionQueue.push(right);
@@ -92,7 +101,6 @@ $(document).ready(function(){
 	$('.step-back').click(stepBack);	
 	function stepBack(){
 		var left = () => {
-			curentId = calcIndex(++curentId);
 			niceMove(true);
 		};
 		actionQueue.push(left);
@@ -100,6 +108,10 @@ $(document).ready(function(){
 	
 	function niceMove(dir){
 		animationInAction = true;
+		curentId =  dir 
+			? calcIndex(++curentId)
+			: calcIndex(--curentId);
+		
 		updateFakeCarousel();
 		
 		var dirPlus = dir ? '+' : '-';
@@ -194,9 +206,10 @@ $(document).ready(function(){
 		return index;
 	}
 	
-	$('.login-popup .close').click(function (){
+	$('.login-popup .close').click(closePopup);
+	function closePopup(){
 		$('.login-popup').hide();
-	});
+	}
 	
 	$('.goods.first .add').click(function(){
 		var newName = $('.goods.first .new-image-name').val();
