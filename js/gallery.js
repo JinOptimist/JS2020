@@ -44,7 +44,7 @@ $(document).ready(function(){
 	
 	var curentId = 0;
 	var animationInAction = false;
-	var animationSpeed = 3000;
+	var animationSpeed = 2 * 1000;
 	
 	var actionQueue = [];
 	
@@ -59,12 +59,17 @@ $(document).ready(function(){
 	}
 	
 	setInterval(addTimer, 1000);
-	
-	
-	
-	//setInterval(stepBack, 2000);
+	setInterval(stepBack, 10 * 1000);
 	
 	setInterval(function(){
+		$('.queue').empty();
+		var actions = actionQueue.map(x => x.name);
+		for	(var i = 0; i < actions.length ; i++){
+			var span = $('<span>');
+			span.text(`${i}) ${actions[i]}`);
+			$('.queue').append(span);
+		}
+		
 		if (!animationInAction && actionQueue.length > 0){
 			var action = actionQueue.shift();
 			action();
