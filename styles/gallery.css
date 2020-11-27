@@ -24,15 +24,10 @@ body{
 }
 
 .goods{
-	border: 1px #ccc solid;
-	border-radius: 10px;
 	width: 200px;
 	height: 200px;
-	display: flex;
-    flex-direction: column;
 	margin: 3px;
-	cursor: pointer;
-    
+	cursor: pointer;    
 }
 
 .goods div{
@@ -171,6 +166,21 @@ body{
 .queue{
 	display: flex;
     flex-direction: column;
+}
+
+.side{
+	display: flex;
+    flex-direction: column;
+	
+	width: 100%;
+	height: 100%;
+	
+	border: 1px #ccc solid;
+    border-radius: 10px;
+}
+
+.tail-side{
+	background: #ccc;
 }
 
 

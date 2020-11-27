@@ -60,9 +60,9 @@ $(document).ready(function(){
 	}
 	
 	setInterval(addTimer, 1000);
-	setInterval(stepBack, 3 * 1000);
-	
+	//setInterval(stepBack, 3 * 1000);	
 	setInterval(checkAnimation, 100);
+	
 	function checkAnimation(){
 		drawQueue();
 		if (!mouseOnImage && !animationInAction && actionQueue.length > 0){
@@ -86,8 +86,8 @@ $(document).ready(function(){
 	$('.login-popup').hide();
 	
 	$('.buttons').hover(
-		() => { mouseOnImage = true; },
-		() => { mouseOnImage = false; }
+		() => { mouseOnImage = true; },//Когда навели мышку
+		() => { mouseOnImage = false; }//Когда убрали мышку
 	);
 	
 	$('.step-forward').click(stepForward);
@@ -317,7 +317,8 @@ $(document).ready(function(){
 			var good = someGoods[i];
 			var goodsDiv = $('<div>');
 		
-			goodsDiv.click(fullScreen);
+			//goodsDiv.click(fullScreen);
+			goodsDiv.click(flip);
 			goodsDiv.attr('data-id', good.id);
 			goodsDiv.addClass('goods');
 			
@@ -333,9 +334,27 @@ $(document).ready(function(){
 			img.attr('src', good.url);
 			divImg.append(img);
 			
-			goodsDiv.append(divName);
-			goodsDiv.append(divUrl);
-			goodsDiv.append(divImg);
+			var divInfoBlock = $('<div>');
+			divInfoBlock.addClass('info-block');
+			divInfoBlock.text('A lot of text about cool girl');
+			
+			var divHeadSide = $('<div>');
+			divHeadSide.addClass('head-side');
+			divHeadSide.addClass('side');
+			
+			divHeadSide.append(divName);
+			divHeadSide.append(divUrl);
+			divHeadSide.append(divImg);
+			
+			var divTailSide = $('<div>');
+			divTailSide.addClass('tail-side');
+			divTailSide.addClass('side');
+			divTailSide.append(divInfoBlock);
+			divTailSide.hide();
+			
+			
+			goodsDiv.append(divHeadSide);			
+			goodsDiv.append(divTailSide);
 			
 			$('.content').append(goodsDiv);
 		}
@@ -352,6 +371,28 @@ $(document).ready(function(){
 		img.attr('src', good.url);
 		
 		$('.login-content-center').append(img);
+	}
+	
+	function flip(){
+		//$(this).animateRotate(90);
+		var girlCard = $(this);
+		flipBlock(girlCard,0,90, () => {
+			girlCard.find('.side').toggle();
+			flipBlock(girlCard, -90, 0);
+		});
+	}
+	
+	function flipBlock(elem, fromAngel, toAngel, complete){
+		$({deg: fromAngel}).animate({deg: toAngel}, {
+			duration: 2000,
+			step: function(now) {
+				elem.css({
+					transform: 'rotateY(' + now + 'deg)'
+				});
+			},
+			complete: complete
+		});
+		
 	}
 });
 
