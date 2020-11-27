@@ -2,32 +2,32 @@ $(document).ready(function(){
 	var goods = [
 		{
 			id: 1,
-			name: 'A-Blond',
+			name: 'Sweet school girl',
 			url: 'img/Girl1.png'
 		},
 		{
 			id: 2,
-			name: 'z-blond',
+			name: 'yang Diva',
 			url: 'img/girl3.jpg'
 		},
 		{
 			id: 3,
-			name: 'A-Red',
+			name: 'White bich',
 			url: 'img/Girl2.jpg'
 		},
 		{
 			id: 4,
-			name: 'Z-blond',
+			name: 'Hinata',
 			url: 'img/girl6.png'
 		},
 		{
 			id: 5,
-			name: 'Z-blond',
+			name: 'Mei classic',
 			url: 'img/mei.png'
 		},
 		{
 			id: 6,
-			name: 'Z-blond',
+			name: 'Sound relax',
 			url: 'img/Girl8.png'
 		},
 		{
@@ -37,9 +37,40 @@ $(document).ready(function(){
 		},
 		{
 			id: 7,
-			name: 'A-Blond',
+			name: 'Goodness white nude',
 			url: 'img/Girl4.png'
 		},
+		{
+			id: 8,
+			name: 'Snipe girl',
+			url: 'img/Girl9.png'
+		},
+		{
+			id: 9,
+			name: 'MachineGun girl',
+			url: 'img/Girl10.png'
+		},
+		{
+			id: 10,
+			name: 'Killer',
+			url: 'img/Girl11.png'
+		},
+		{
+			id: 11,
+			name: 'Almost visible BOOBS',
+			url: 'img/Girl12.png'
+		},
+		{
+			id: 12,
+			name: 'Vamp',
+			url: 'img/Girl13.png'
+		},
+		{
+			id: 13,
+			name: 'Sico bloody boobs',
+			url: 'img/Girl14.png'
+		}
+		
 	];
 	
 	var curentId = 2;
@@ -47,6 +78,9 @@ $(document).ready(function(){
 	var mouseOnImage = false;
 	var animationSpeed = 2 * 1000;
 	var flipSpeed = 0.3 * 1000;	
+	var flipSpeedMin = 0.4 * 1000;	
+	var flipSpeedMax = 1.5 * 1000;	
+	
 	var chanceRandomFlip = 0.3;
 	
 	var actionQueue = [];
@@ -65,7 +99,7 @@ $(document).ready(function(){
 	//setInterval(stepBack, 3 * 1000);	
 	setInterval(checkAnimation, 100);
 	
-	setInterval(randomFlip, flipSpeed * 2 + 100);
+	setInterval(randomFlip, 1000);
 	
 	function checkAnimation(){
 		drawQueue();
@@ -89,9 +123,16 @@ $(document).ready(function(){
 		var girlCards = $('.goods');
 		girlCards.each((i, elem) => {
 			if (Math.random() <= chanceRandomFlip){
+				$(elem).data('speed', random(flipSpeedMin, flipSpeedMax));
+				var axe = Math.random() <= 0.5 ? 'Y' : 'X';
+				$(elem).data('axe', axe);
 				elem.click();
 			}
 		});
+	}
+	
+	function random(min, max){
+		return min + Math.random() * (max - min);
 	}
 	
 	//setInterval(stepForward, 4000);
@@ -349,11 +390,12 @@ $(document).ready(function(){
 			
 			var divInfoBlock = $('<div>');
 			divInfoBlock.addClass('info-block');
-			divInfoBlock.text('A lot of text about cool girl');
+			divInfoBlock.text(good.name);
 			
 			var divHeadSide = $('<div>');
 			divHeadSide.addClass('head-side');
 			divHeadSide.addClass('side');
+			divHeadSide.addClass('displayed');
 			
 			divHeadSide.append(divName);
 			divHeadSide.append(divUrl);
@@ -363,8 +405,6 @@ $(document).ready(function(){
 			divTailSide.addClass('tail-side');
 			divTailSide.addClass('side');
 			divTailSide.append(divInfoBlock);
-			divTailSide.hide();
-			
 			
 			goodsDiv.append(divHeadSide);			
 			goodsDiv.append(divTailSide);
@@ -389,19 +429,31 @@ $(document).ready(function(){
 	function flip(){
 		//$(this).animateRotate(90);
 		var girlCard = $(this);
-		flipBlock(girlCard,0,90, () => {
-			girlCard.find('.side').toggle();
-			flipBlock(girlCard, -90, 0);
-		});
+		var isAnimatedActive = girlCard.data('is-animated-active');
+		if (isAnimatedActive){
+			return false;
+		}
+		girlCard.data('is-animated-active', true);
+		var axe = girlCard.data('axe');
+		
+		flipBlock(girlCard, 0 ,90 , () => {
+			girlCard.find('.side').toggleClass('displayed');
+			flipBlock(girlCard, -90, 0, () => {
+				girlCard.data('is-animated-active', false);
+			}, axe);
+		}, axe);
 	}
 	
-	function flipBlock(elem, fromAngel, toAngel, complete){
+	function flipBlock(elem, fromAngel, toAngel, complete, axe){
+		if (!axe){
+			axe = 'Y';
+		}
 		$({deg: fromAngel}).animate({deg: toAngel}, {
-			duration: flipSpeed,
+			duration: elem.data('speed') - 0,
 			easing: 'linear',
 			step: function(now) {
 				elem.css({
-					transform: 'rotateY(' + now + 'deg)'
+					transform: `rotate${axe}(${now}deg)`
 				});
 			},
 			complete: complete

@@ -76,8 +76,8 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 400px;
-    height: 400px;
+    width: 800px;
+    height: 800px;
     background: #fff;
     border: 2px green solid;
     z-index: 20;
@@ -85,8 +85,8 @@ body{
 }
 
 .login-popup .login-content img{
-	max-width: 400px;
-    max-height: calc(400px - 20px);
+	max-width: 800px;
+    max-height: calc(800px - 20px);
 }
 
 .login-popup .close-block{
@@ -173,8 +173,8 @@ body{
     flex-direction: column;
 }
 
-.side{
-	display: flex;
+.goods .side{
+	display: none;
     flex-direction: column;
 	
 	width: 100%;
@@ -184,8 +184,29 @@ body{
     border-radius: 10px;
 }
 
+.info-block{
+	font-size: 50px;
+	display: flex;
+	justify-content: center;
+	text-align: center;
+}
+
+.goods .head-side{
+	display: flex;
+	position: absolute;
+	opacity: 0.2;
+}
+.goods .head-side.displayed{
+	position: static;
+	opacity: 1;
+}
+
 .tail-side{
 	background: #ccc;
+}
+
+.side.displayed{
+	display: flex;
 }
 
 
