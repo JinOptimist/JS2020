@@ -42,7 +42,7 @@ $(document).ready(function(){
 		},
 	];
 	
-	var curentId = 0;
+	var curentId = 2;
 	var animationInAction = false;
 	var mouseOnImage = false;
 	var animationSpeed = 2 * 1000;
@@ -392,7 +392,6 @@ $(document).ready(function(){
 			},
 			complete: complete
 		});
-		
 	}
 });
 
