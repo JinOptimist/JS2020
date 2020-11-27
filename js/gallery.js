@@ -46,6 +46,8 @@ $(document).ready(function(){
 	var animationInAction = false;
 	var mouseOnImage = false;
 	var animationSpeed = 2 * 1000;
+	var flipSpeed = 0.3 * 1000;	
+	var chanceRandomFlip = 0.3;
 	
 	var actionQueue = [];
 	
@@ -63,6 +65,8 @@ $(document).ready(function(){
 	//setInterval(stepBack, 3 * 1000);	
 	setInterval(checkAnimation, 100);
 	
+	setInterval(randomFlip, flipSpeed * 2 + 100);
+	
 	function checkAnimation(){
 		drawQueue();
 		if (!mouseOnImage && !animationInAction && actionQueue.length > 0){
@@ -79,6 +83,15 @@ $(document).ready(function(){
 			span.text(`${i}) ${actions[i]}`);
 			$('.queue').append(span);
 		}
+	}
+	
+	function randomFlip(){
+		var girlCards = $('.goods');
+		girlCards.each((i, elem) => {
+			if (Math.random() <= chanceRandomFlip){
+				elem.click();
+			}
+		});
 	}
 	
 	//setInterval(stepForward, 4000);
@@ -384,7 +397,8 @@ $(document).ready(function(){
 	
 	function flipBlock(elem, fromAngel, toAngel, complete){
 		$({deg: fromAngel}).animate({deg: toAngel}, {
-			duration: 2000,
+			duration: flipSpeed,
+			easing: 'linear',
 			step: function(now) {
 				elem.css({
 					transform: 'rotateY(' + now + 'deg)'
@@ -393,6 +407,8 @@ $(document).ready(function(){
 			complete: complete
 		});
 	}
+	
+	
 });
 
 
