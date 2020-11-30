@@ -81,10 +81,14 @@ $(document).ready(function(){
 	var flipSpeedMin = 0.4 * 1000;	
 	var flipSpeedMax = 1.5 * 1000;	
 	
+	var minSize = 1;
+	var maxSize = 5;
+	
 	var chanceRandomFlip = 0.3;
 	
 	var actionQueue = [];
 	
+	init();
 	refreshGoods();
 	updateCarousel();
 	
@@ -100,6 +104,113 @@ $(document).ready(function(){
 	setInterval(checkAnimation, 100);
 	
 	setInterval(randomFlip, 1000);
+	
+	
+	
+	function init(){
+		for	(var i = 0; i < goods.length; i++){
+			goods[i].size = randomInteger(minSize, maxSize);
+			goods[i].buity = randomInteger(1, 10);
+		}
+		
+		drawCharts();
+	}
+	
+	function drawCharts(){
+		drawOneChart('chartSize', 'line');
+		drawAvarageChart('chartDuplicate', 'bar');
+	}
+	
+	function drawOneChart(canvasId, type){
+		var names = goods.map(x => x.name);
+		var sizes = goods.map(x => x.size);
+		var buitys = goods.map(x => x.buity);
+		var namesLength = goods.map(x => x.name.length);
+		
+		var ctx = document.getElementById(canvasId).getContext('2d');
+		var chart = new Chart(ctx, {
+			type: type,
+
+			// The data for our dataset
+			data: {
+				labels: names,
+				datasets: [
+				{
+					label: 'Girl sizes',
+					backgroundColor: 'rgb(125, 0, 0)',
+					borderColor: 'rgb(250, 0, 0)',
+					data: sizes
+				},
+				{
+					label: 'Girl buitys',
+					borderColor: 'rgb(0, 250, 0)',
+					data: buitys
+				},
+				/*{
+					label: 'Girl name length',
+					borderColor: 'rgb(0, 0, 250)',
+					data: namesLength
+				}*/]
+			},
+
+			// Configuration options go here
+			options: {}
+		});
+	}
+	
+	function drawAvarageChart(canvasId, type){
+		var sizesGoods = [];
+		
+		for	(var i = minSize; i <= maxSize; i++){
+			sizesGoods[i] = [];
+		}
+		
+		for	(var i = 0; i < goods.length; i++){
+			var good = goods[i];
+			sizesGoods[good.size].push(good);
+		}
+		
+		var resultDataSet = [];
+		for	(var i = 1; i < sizesGoods.length; i++){
+			var sizesGood = sizesGoods[i];
+			var summ = sizesGood
+				.map(x => x.buity)
+				.reduce((a, b) => a + b);
+			resultDataSet.push({
+				size: i,
+				avarage: summ / sizesGood.length
+			});
+		}
+		
+		var ctx = document.getElementById(canvasId).getContext('2d');
+		var chart = new Chart(ctx, {
+			type: type,
+
+			// The data for our dataset
+			data: {
+				labels: resultDataSet.map(x => 's - ' + x.size),
+				datasets: [
+				{
+					label: 'Girl sizes',
+					backgroundColor: 'rgb(125, 0, 0)',
+					borderColor: 'rgb(250, 0, 0)',
+					data: resultDataSet.map(x => x.avarage)
+				}]
+			},
+
+			// Configuration options go here
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							min: 0,
+							max: 10
+						}
+					}]
+				}
+			}
+		});
+	}
 	
 	function checkAnimation(){
 		drawQueue();
@@ -133,6 +244,11 @@ $(document).ready(function(){
 	
 	function random(min, max){
 		return min + Math.random() * (max - min);
+	}
+	
+	function randomInteger(min, max) {
+		let rand = min - 0.5 + Math.random() * (max - min + 1);
+		return Math.round(rand);
 	}
 	
 	//setInterval(stepForward, 4000);
@@ -377,7 +493,7 @@ $(document).ready(function(){
 			goodsDiv.addClass('goods');
 			
 			var divName = $('<div>');
-			divName.text(good.name);
+			divName.text(good.name + ' s = ' + good.size);
 			
 			var divUrl = $('<div>');
 			divUrl.text(good.url);

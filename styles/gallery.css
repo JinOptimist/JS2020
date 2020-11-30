@@ -209,7 +209,12 @@ body{
 	display: flex;
 }
 
-
+.chart-container{
+	display: flex;
+}
+.chart-container-block{
+	width: 700px;
+}
 
 
 
