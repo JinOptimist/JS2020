@@ -217,6 +217,18 @@ body{
 }
 
 
+.tab-header{
+	display: flex;
+}
+
+.tab-header div{
+	border: 1px red solid;
+	cursor: pointer;
+	padding: 5px;
+	margin: 4px;
+}
+
+
 
 
 

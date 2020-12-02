@@ -60,51 +60,67 @@
 				
 			</div>
 			<div>
-				<div class='chart-container'>
-					<div class='chart-container-block'>
-						<canvas id="chartSize"></canvas>
-					</div>
-					<div class='chart-container-block'>
-						<canvas id="chartDuplicate"></canvas>
-					</div>
-				</div>
-				<div class='content'>
-					<div class='goods first'>
-						<div class='name'>
-							<input class='new-image-name' placeholder='Название' />
-							<span class='icon delete' style='visibility:hidden;'></span>
+			
+				<div class='tab-main'>
+					<div class='tab-header'></div>
+					<div class='tab-body'>
+						<div class='chart-container tab' data-tab-name='chart'>
+							<div class='chart-container-block'>
+								<canvas id="chartSize"></canvas>
+							</div>
+							<div class='chart-container-block'>
+								<canvas id="chartDuplicate"></canvas>
+							</div>
 						</div>
-						<div>
-							<input class='new-image-url' placeholder='URL картинки' value='img/Girl3.jpg' />
-							<span class='icon add'></span>
+						
+						<div class='content tab' data-tab-name='flip'>
+							<div class='goods first'>
+								<div class='name'>
+									<input class='new-image-name' placeholder='Название' />
+									<span class='icon delete' style='visibility:hidden;'></span>
+								</div>
+								<div>
+									<input class='new-image-url' placeholder='URL картинки' value='img/Girl3.jpg' />
+									<span class='icon add'></span>
+								</div>
+								<div class='image'>
+									<img src='img/shape.jpg' />
+								</div>
+							</div>
 						</div>
-						<div class='image'>
-							<img src='img/shape.jpg' />
-						</div>
-					</div>
-				</div>
-				<div class='carousel'>
-					<div class='buttons'>
-						<span class='step-back'><span class='icon left'></span></span>
-						<span class='step-forward'><span class='icon right'></span></span>
-					</div>
 					
-					<div class='image small fake left'>
-						<img class='left-image' src='img/shape.jpg' />
-					</div>
-					<div class='image small back'>
-						<img class='left-image' src='img/girl3.jpg' />
-					</div>
-					<div class='image center'>
-						<img class='center-image' src='img/shape.jpg' />
-					</div>
-					<div class='image small forward'>
-						<img class='right-image' src='img/shape.jpg' />
-					</div>
-					<div class='image small fake right'>
-						<img class='right-image' src='img/shape.jpg' />
+						<div class='carousel tab' data-tab-name='carousel'>
+							<div class='buttons'>
+								<span class='step-back'><span class='icon left'></span></span>
+								<span class='step-forward'><span class='icon right'></span></span>
+							</div>
+							
+							<div class='image small fake left'>
+								<img class='left-image' src='img/shape.jpg' />
+							</div>
+							<div class='image small back'>
+								<img class='left-image' src='img/girl3.jpg' />
+							</div>
+							<div class='image center'>
+								<img class='center-image' src='img/shape.jpg' />
+							</div>
+							<div class='image small forward'>
+								<img class='right-image' src='img/shape.jpg' />
+							</div>
+							<div class='image small fake right'>
+								<img class='right-image' src='img/shape.jpg' />
+							</div>
+						</div>
+					
+						<div class='tab' data-tab-name='smile'>
+							Smile exmaple
+						</div>
 					</div>
 				</div>
+			
+				
+				
+				
 			</div>
 			
 		</div>

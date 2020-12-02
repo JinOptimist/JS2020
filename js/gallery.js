@@ -84,7 +84,7 @@ $(document).ready(function(){
 	var minSize = 1;
 	var maxSize = 5;
 	
-	var chanceRandomFlip = 0.3;
+	var chanceRandomFlip = 0.02;
 	
 	var actionQueue = [];
 	
@@ -108,12 +108,44 @@ $(document).ready(function(){
 	
 	
 	function init(){
+		$('.login-popup').hide();
+		
 		for	(var i = 0; i < goods.length; i++){
 			goods[i].size = randomInteger(minSize, maxSize);
 			goods[i].buity = randomInteger(1, 10);
 		}
 		
 		drawCharts();
+		
+		initTab();
+	}
+	
+	function initTab(){
+		var tabNames = [];
+		$('.tab').each(function(i, elem){
+			var tabName = $(elem).data('tab-name');
+			tabNames.push(tabName);
+		});
+		
+		for(var i = 0;i < tabNames.length; i++){
+			var name = tabNames[i];
+			
+			var nameDiv = $('<div>');
+			nameDiv.addClass('tab-title');
+			nameDiv.text(name);
+			nameDiv.attr('tab-id', name);
+			nameDiv.click(showTab);
+			
+			$('.tab-header').append(nameDiv);
+		}
+		var firstTab = $('.tab-title:first-child');
+		firstTab.trigger( "click" );
+	}
+	
+	function showTab(){
+		$('.tab').hide();
+		var tabId = $(this).attr('tab-id');
+		$('.tab[data-tab-name=' + tabId + ']').show();
 	}
 	
 	function drawCharts(){
@@ -173,9 +205,12 @@ $(document).ready(function(){
 		var resultDataSet = [];
 		for	(var i = 1; i < sizesGoods.length; i++){
 			var sizesGood = sizesGoods[i];
-			var summ = sizesGood
-				.map(x => x.buity)
-				.reduce((a, b) => a + b);
+			
+			var summ = sizesGood.length > 0 
+				? sizesGood
+					.map(x => x.buity)
+					.reduce((a, b) => a + b)
+				: 0;
 			resultDataSet.push({
 				size: i,
 				avarage: summ / sizesGood.length
@@ -252,8 +287,6 @@ $(document).ready(function(){
 	}
 	
 	//setInterval(stepForward, 4000);
-	
-	$('.login-popup').hide();
 	
 	$('.buttons').hover(
 		() => { mouseOnImage = true; },//Когда навели мышку
