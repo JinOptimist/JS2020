@@ -1,3 +1,6 @@
+var firstActiveCard = undefined;
+var secondActiveCard = undefined;
+	
 $(document).ready(function(){	
 	var goods = [
 		{
@@ -36,11 +39,6 @@ $(document).ready(function(){
 			url: 'img/girl7.png'
 		},
 		{
-			id: 7,
-			name: 'Goodness white nude',
-			url: 'img/Girl4.png'
-		},
-		{
 			id: 8,
 			name: 'Snipe girl',
 			url: 'img/Girl9.png'
@@ -69,9 +67,20 @@ $(document).ready(function(){
 			id: 13,
 			name: 'Sico bloody boobs',
 			url: 'img/Girl14.png'
-		}
+		},
+		{
+			id: 14,
+			name: 'Goodness white nude',
+			url: 'img/Girl4.png'
+		},
 		
 	];
+	
+	var deck = [];
+	var deckSize = 9;
+	var coverUrl = 'img/cover.png';
+	
+	var timeToSeeCard = 1 * 1000;
 	
 	var curentId = 2;
 	var animationInAction = false;
@@ -106,7 +115,6 @@ $(document).ready(function(){
 	setInterval(randomFlip, 1000);
 	
 	
-	
 	function init(){
 		$('.login-popup').hide();
 		
@@ -118,6 +126,65 @@ $(document).ready(function(){
 		drawCharts();
 		
 		initTab();
+		
+		buildDeck();
+		drawDeck();
+	}
+	
+	function buildDeck(){
+		for(var i = 0; i < deckSize; i++){
+			deck.push(i);
+			deck.push(i);
+		}
+		
+		for(var i = 0; i < 100; i++){
+			shuffle();
+		}
+		
+		for(var i = 0; i < deck.length; i++){
+			deck[i] = goods[deck[i]];
+		}
+	}
+	
+	function drawDeck(){
+		for(var i = 0; i < deck.length; i++){
+			var card = deck[i];
+			
+			var cardDiv = $('<div>');
+			cardDiv.click(onCardClick);
+			cardDiv.attr('data-card-id', card.id);
+			cardDiv.addClass('card');
+			
+			var img = $('<img>');
+			img.attr('src', card.url);		
+			var divHeadSide = $('<div>');
+			divHeadSide.addClass('head-side');
+			divHeadSide.addClass('side');
+			
+			divHeadSide.append(img);
+			
+			var imgCover = $('<img>');
+			imgCover.attr('src', coverUrl);		
+			var divTailSide = $('<div>');
+			divTailSide.addClass('tail-side');
+			divTailSide.addClass('side');
+			divTailSide.addClass('displayed');			
+			divTailSide.append(imgCover);
+			
+			cardDiv.append(divHeadSide);			
+			cardDiv.append(divTailSide);
+			
+			$('.twoCardField').append(cardDiv);
+		}
+	}
+	
+	function shuffle(){
+		var firstCard = randomInteger(0, deck.length - 1);
+		var secondCard = randomInteger(0, deck.length - 1);
+		
+		var temp = deck[firstCard];
+		deck[firstCard] = deck[secondCard];
+		deck[secondCard] = temp;
 	}
 	
 	function initTab(){
@@ -138,8 +205,8 @@ $(document).ready(function(){
 			
 			$('.tab-header').append(nameDiv);
 		}
-		var firstTab = $('.tab-title:first-child');
-		firstTab.trigger( "click" );
+		var lastTab = $('.tab-title:last-child');
+		lastTab.trigger( "click" );
 	}
 	
 	function showTab(){
@@ -521,7 +588,7 @@ $(document).ready(function(){
 			var goodsDiv = $('<div>');
 		
 			//goodsDiv.click(fullScreen);
-			goodsDiv.click(flip);
+			goodsDiv.click(onGoodClick);
 			goodsDiv.attr('data-id', good.id);
 			goodsDiv.addClass('goods');
 			
@@ -575,9 +642,14 @@ $(document).ready(function(){
 		$('.login-content-center').append(img);
 	}
 	
-	function flip(){
+	function onGoodClick(){
+		var good = $(this);
+		flip(good);
+	}
+	
+	function flip(jElem){
 		//$(this).animateRotate(90);
-		var girlCard = $(this);
+		var girlCard = jElem;
 		var isAnimatedActive = girlCard.data('is-animated-active');
 		if (isAnimatedActive){
 			return false;
@@ -597,8 +669,12 @@ $(document).ready(function(){
 		if (!axe){
 			axe = 'Y';
 		}
+		var speed = elem.data('speed');
+		if (!speed){
+			speed = flipSpeed;
+		}
 		$({deg: fromAngel}).animate({deg: toAngel}, {
-			duration: elem.data('speed') - 0,
+			duration: speed - 0,
 			easing: 'linear',
 			step: function(now) {
 				elem.css({
@@ -609,7 +685,48 @@ $(document).ready(function(){
 		});
 	}
 	
+	function onCardClick(){
+		var clickedCard = $(this);
+		if (!!secondActiveCard || clickedCard.attr('data-is-done') == 1){
+			return;
+		}
+		
+		flip(clickedCard);
+		if (!firstActiveCard){
+			firstActiveCard = clickedCard;			
+			return;
+		}
+		if (firstActiveCard[0] == clickedCard[0]){
+			firstActiveCard = undefined;
+			return;
+		}
+		
+		secondActiveCard = clickedCard;
+		var id1 = firstActiveCard.attr('data-card-id');		
+		var id2 = secondActiveCard.attr('data-card-id');
+		if (id1 != id2){
+			setTimeout(function() {
+				flip(firstActiveCard);
+				flip(secondActiveCard);
+				firstActiveCard = undefined;
+				secondActiveCard = undefined;
+			}, timeToSeeCard);
+			return;
+		}
+		
+		setTimeout(function() {
+				doneCard(firstActiveCard);
+				doneCard(secondActiveCard);
+				firstActiveCard = undefined;
+				secondActiveCard = undefined;
+			}, timeToSeeCard);
+	}
 	
+	function doneCard(card){
+		card.fadeTo(timeToSeeCard, 0.3);
+		card.addClass('done');
+		card.attr('data-is-done', 1);
+	}
 });
 
 
