@@ -1,6 +1,3 @@
-var firstActiveCard = undefined;
-var secondActiveCard = undefined;
-	
 $(document).ready(function(){	
 	var goods = [
 		{
@@ -79,6 +76,8 @@ $(document).ready(function(){
 	var deck = [];
 	var deckSize = 9;
 	var coverUrl = 'img/cover.png';
+	var firstActiveCard = undefined;
+	var secondActiveCard = undefined;
 	
 	var timeToSeeCard = 1 * 1000;
 	
@@ -92,6 +91,8 @@ $(document).ready(function(){
 	
 	var minSize = 1;
 	var maxSize = 5;
+	
+	var carouselWidth = 875;
 	
 	var chanceRandomFlip = 0.02;
 	
@@ -109,11 +110,10 @@ $(document).ready(function(){
 	}
 	
 	setInterval(addTimer, 1000);
-	//setInterval(stepBack, 3 * 1000);	
+	setInterval(stepBack, 3 * 1000);	
 	setInterval(checkAnimation, 100);
 	
 	setInterval(randomFlip, 1000);
-	
 	
 	function init(){
 		$('.login-popup').hide();
@@ -205,7 +205,7 @@ $(document).ready(function(){
 			
 			$('.tab-header').append(nameDiv);
 		}
-		var lastTab = $('.tab-title:last-child');
+		var lastTab = $('[tab-id=carousel]');
 		lastTab.trigger( "click" );
 	}
 	
@@ -391,26 +391,28 @@ $(document).ready(function(){
 		$(`.carousel .small.${smallBlockDisappeared}`).animate(
 			{ 
 				width: `0px`,
+				height: `0px`,
 			}, animationSpeed);
 			
 		var smallGonaBigger = dir ? 'right' : 'left';
 		$(`.carousel .fake.${smallGonaBigger}`).animate(
 			{ 
-				width: `+=250px`,
+				width: `+=${carouselWidth/2}px`,
+				height: `+=${carouselWidth/2}px`,
 			}, animationSpeed);
 		
 		var smallBlockAppeared = dir ? 'forward': 'back';
 		$(`.carousel .${smallBlockAppeared}.small`).animate(
 			{ 
 				opacity: `+=0.5`,
-				height: `+=250px`,
-				width: `+=250px`,
+				height: `+=${carouselWidth/2}px`,
+				width: `+=${carouselWidth/2}px`,
 			}, animationSpeed);
 		
 		$('.carousel .image.center').animate(
 			{ 
-				width: `-=250px`,
-				height: `-=250px`,
+				width: `-=${carouselWidth/2}px`,
+				height: `-=${carouselWidth/2}px`,
 				opacity: `-=0.5`,
 			}, animationSpeed,
 			"swing",
@@ -432,19 +434,21 @@ $(document).ready(function(){
 	}
 	
 	function defaultCss(){
-		$('.carousel .small.back').css('width', '250px');
-		$('.carousel .small.back').css('height', '250px');
+		$('.carousel .small.back').css('width', `${carouselWidth/2}px`);
+		$('.carousel .small.back').css('height', `${carouselWidth/2}px`);
 		$('.carousel .small.back').css('opacity', '0.5');
 		
-		$('.carousel .image.center').css('width', '500px');
-		$('.carousel .image.center').css('height', '500px');
+		$('.carousel .image.center').css('width', `${carouselWidth}px`);
+		$('.carousel .image.center').css('height', `${carouselWidth}px`);
 		$('.carousel .image.center').css('opacity', '1');
 		
 		$('.carousel .fake.right').css('width', '0');
-		$('.carousel .fake.left').css('width', '0');
+		$('.carousel .fake.right').css('height', '0');
+		$('.carousel .fake.left').css('width', '0');		
+		$('.carousel .fake.left').css('height', '0');
 	
-		$('.carousel .small.forward').css('height', '250px');
-		$('.carousel .small.forward').css('width', '250px');
+		$('.carousel .small.forward').css('height', `${carouselWidth/2}px`);
+		$('.carousel .small.forward').css('width', `${carouselWidth/2}px`);
 		$('.carousel .small.forward').css('opacity', '0.5');
 	}
 	
